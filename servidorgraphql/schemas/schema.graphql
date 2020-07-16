@@ -1,0 +1,151 @@
+enum Nivel {
+  Basic
+  Intermediate
+  Advanced
+}
+
+enum TituloAcademico {
+  Third_level
+  Master
+  PhD
+}
+
+scalar JSON
+
+type Query {
+  getCursos: [Curso]
+  getCurso(_id: ID!): [Curso]
+
+  getPersonas: [Persona]
+  getPersona(_id: ID!): [Persona]
+
+  getRoles: [Rol]
+  getRol(_id: ID!): [Rol]
+
+  login(email: String, password: String): JSON
+}
+
+type Mutation {
+  createCurso(input: CursoInput!): [Curso]
+  updateCurso(_id: ID!, input: EditCursoInput): [Curso]
+  deleteCurso(_id: ID!): [Curso]
+
+  createPersona(input: PersonaInput!): Boolean
+  updatePersona(_id: ID!, input: EditPersonaInput): [Persona]
+  deletePersona(_id: ID!): Boolean
+
+  createRol(input: RolInput!): Boolean
+  updateRol(_id: ID!, input: EditRolInput): [Rol]
+  deleteRol(_id: ID!): Boolean
+}
+
+input CursoInput {
+  titulo: String
+  profesor: String
+  descripcion: String
+  fotoPerfil: String
+  nivel: Nivel
+  }
+
+input EditCursoInput {
+  titulo: String
+  profesor: String
+  descripcion: String
+  fotoPerfil: String
+  participantes: [ID]
+  nivel:  Nivel
+}
+
+input PersonaInput {
+  nombre: String
+  apellido: String
+  edad: String
+  email: String
+  fotoPerfil: String
+  password: String
+  rol: String
+  tituloAcademico: TituloAcademico
+}
+
+input EditPersonaInput {
+  nombre: String
+  apellido: String
+  age: String
+  email: String
+  fotoPerfil: String
+  password: String
+  rol: String
+  tituloAcademico: TituloAcademico
+}
+
+input RolInput {
+  nombre: String
+  descripcion: String
+}
+
+input EditRolInput {
+  nombre: String
+  descripcion: String
+}
+
+type Curso {
+  _id: ID!
+  titulo: String
+  profesor: Profesor
+  descripcion: String
+  fotoPerfil: String
+  participantes: [Estudiante]
+  nivel: Nivel
+}
+
+interface Persona {
+  _id: ID!
+  nombre: String
+  apellido: String
+  email: String
+  fotoPerfil: String
+  password: String
+  rol: String
+}
+
+# type User {
+#   _id: ID!
+#   nombre: String
+#   apellido: String
+#   email: String
+#   fotoPerfil: String
+#   password: String
+#   rol: String
+#   tituloAcademico: TituloAcademico
+# }
+
+type Estudiante implements Persona {
+  _id: ID!
+  nombre: String
+  apellido: String
+  edad: String
+  email: String
+  fotoPerfil: String
+  password: String
+  rol: String
+  foto: String
+}
+
+type Profesor implements Persona {
+  _id: ID!
+  nombre: String
+  apellido: String
+  edad: String
+  email: String
+  fotoPerfil: String
+  password: String
+  rol: String
+  tituloAcademico: TituloAcademico
+}
+
+type Rol {
+  _id: ID!
+  nombre: String
+  descripcion: Profesor
+}
+
